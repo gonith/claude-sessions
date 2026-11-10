@@ -1,0 +1,57 @@
+{
+  "name": "claude-sessions",
+  "displayName": "Claude Sessions",
+  "description": "Liste, recherche et reprend les conversations Claude Code de tous les dossiers et worktrees.",
+  "publisher": "thibaut-local",
+  "version": "0.1.0",
+  "license": "UNLICENSED",
+  "engines": { "vscode": "^1.80.0" },
+  "categories": ["Other"],
+  "main": "./extension.js",
+  "activationEvents": ["onStartupFinished"],
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        { "id": "claudeSessions", "title": "Conversations Claude", "icon": "media/icon.svg" }
+      ]
+    },
+    "views": {
+      "claudeSessions": [
+        { "type": "webview", "id": "claudeSessions.list", "name": "Conversations" }
+      ]
+    },
+    "commands": [
+      { "command": "claudeSessions.search", "title": "Claude : rechercher une conversation" },
+      { "command": "claudeSessions.focus", "title": "Claude : ouvrir le panneau des conversations" },
+      { "command": "claudeSessions.refresh", "title": "Rafraîchir", "icon": "$(refresh)" }
+    ],
+    "menus": {
+      "view/title": [
+        { "command": "claudeSessions.refresh", "when": "view == claudeSessions.list", "group": "navigation" }
+      ]
+    },
+    "keybindings": [
+      { "command": "claudeSessions.search", "key": "ctrl+alt+c" }
+    ],
+    "configuration": {
+      "title": "Claude Sessions",
+      "properties": {
+        "claudeSessions.openOnStartup": {
+          "type": "boolean",
+          "default": true,
+          "description": "Ouvrir le panneau des conversations au démarrage de VS Code."
+        },
+        "claudeSessions.maxSessions": {
+          "type": "number",
+          "default": 300,
+          "description": "Nombre maximum de conversations listées (les plus récentes)."
+        },
+        "claudeSessions.activeMinutes": {
+          "type": "number",
+          "default": 3,
+          "description": "Une conversation modifiée depuis moins de N minutes est marquée « en cours »."
+        }
+      }
+    }
+  }
+}
