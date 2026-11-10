@@ -2,11 +2,16 @@
   "name": "claude-sessions",
   "displayName": "Claude Sessions",
   "description": "Liste, recherche et reprend les conversations Claude Code de tous les dossiers et worktrees.",
-  "publisher": "thibaut-local",
-  "version": "0.1.0",
-  "license": "UNLICENSED",
+  "publisher": "gonith",
+  "version": "0.2.0",
+  "license": "MIT",
+  "icon": "media/icon.png",
+  "repository": { "type": "git", "url": "https://github.com/gonith/claude-sessions.git" },
+  "bugs": { "url": "https://github.com/gonith/claude-sessions/issues" },
+  "homepage": "https://github.com/gonith/claude-sessions#readme",
+  "keywords": ["claude", "claude code", "ai", "sessions", "conversations", "terminal", "worktree"],
   "engines": { "vscode": "^1.80.0" },
-  "categories": ["Other"],
+  "categories": ["Other", "AI"],
   "main": "./extension.js",
   "activationEvents": ["onStartupFinished"],
   "contributes": {
@@ -49,7 +54,18 @@
         "claudeSessions.activeMinutes": {
           "type": "number",
           "default": 3,
-          "description": "Une conversation modifiée depuis moins de N minutes est marquée « en cours »."
+          "description": "Sans registre de sessions (anciennes versions de Claude Code) : une conversation modifiée depuis moins de N minutes est considérée comme en cours."
+        },
+        "claudeSessions.notifications": {
+          "type": "string",
+          "enum": ["autorisations", "toutes", "aucune"],
+          "enumDescriptions": [
+            "Seulement quand Claude attend ton feu vert (autorisation, question en cours de tour).",
+            "Aussi quand Claude termine, ou finit son tour sur une question.",
+            "Jamais : le panneau, le badge et la barre d'état suffisent."
+          ],
+          "default": "autorisations",
+          "description": "Quand afficher une notification VS Code pour une conversation ouverte dans un terminal de cette fenêtre."
         }
       }
     }

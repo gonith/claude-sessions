@@ -1,0 +1,96 @@
+body {
+  margin: 0;
+  padding: 0;
+  color: var(--vscode-editor-foreground);
+  background: var(--vscode-editor-background);
+  font-family: var(--vscode-font-family);
+  font-size: var(--vscode-font-size);
+  line-height: 1.5;
+}
+header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  padding: 10px 16px 8px;
+  background: var(--vscode-editor-background);
+  border-bottom: 1px solid var(--vscode-panel-border, rgba(128, 128, 128, 0.3));
+}
+.head { display: flex; gap: 12px; align-items: flex-start; }
+.info { flex: 1; min-width: 0; }
+h1 { margin: 0; font-size: 1.2em; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#meta { margin-top: 2px; font-size: 0.9em; color: var(--vscode-descriptionForeground); }
+.where { color: var(--vscode-textLink-foreground); }
+.live { color: var(--vscode-charts-green, #3fb950); }
+.buttons { display: flex; gap: 4px; flex: none; }
+button {
+  padding: 3px 9px;
+  cursor: pointer;
+  color: var(--vscode-button-secondaryForeground);
+  background: var(--vscode-button-secondaryBackground);
+  border: none;
+  border-radius: 2px;
+  font: inherit;
+}
+button:hover { filter: brightness(1.15); }
+button.primary { color: var(--vscode-button-foreground); background: var(--vscode-button-background); }
+.search { display: flex; gap: 6px; align-items: center; margin-top: 8px; }
+#q {
+  flex: 1;
+  max-width: 480px;
+  padding: 4px 6px;
+  color: var(--vscode-input-foreground);
+  background: var(--vscode-input-background);
+  border: 1px solid var(--vscode-input-border, transparent);
+  outline: none;
+  font: inherit;
+}
+#q:focus { border-color: var(--vscode-focusBorder); }
+#count { min-width: 70px; font-size: 0.9em; color: var(--vscode-descriptionForeground); }
+.search label { display: flex; align-items: center; gap: 3px; font-size: 0.9em; color: var(--vscode-descriptionForeground); cursor: pointer; }
+
+main { max-width: 900px; margin: 0 auto; padding: 12px 16px 40px; }
+.msg { margin: 12px 0; padding: 8px 12px; border-radius: 6px; }
+.msg.user {
+  margin-left: 12%;
+  background: var(--vscode-textBlockQuote-background, rgba(128, 128, 128, 0.12));
+  border-left: 3px solid var(--vscode-textLink-foreground);
+}
+.msg.claude { margin-right: 4%; }
+.who { font-size: 0.85em; font-weight: 600; color: var(--vscode-descriptionForeground); margin-bottom: 3px; }
+.msg.claude .who { color: var(--vscode-charts-orange, #d18616); }
+.ts { font-weight: normal; margin-left: 6px; opacity: 0.8; }
+.txt { white-space: pre-wrap; word-wrap: break-word; margin: 4px 0; }
+.txt .h { display: inline-block; margin-top: 4px; }
+code {
+  font-family: var(--vscode-editor-font-family);
+  font-size: 0.92em;
+  padding: 0 3px;
+  border-radius: 3px;
+  background: var(--vscode-textCodeBlock-background, rgba(128, 128, 128, 0.15));
+}
+pre {
+  margin: 6px 0;
+  padding: 8px 10px;
+  overflow-x: auto;
+  border-radius: 4px;
+  background: var(--vscode-textCodeBlock-background, rgba(128, 128, 128, 0.15));
+}
+pre code { padding: 0; background: none; white-space: pre; }
+.tools { margin: 4px 0; padding-left: 8px; border-left: 2px solid var(--vscode-panel-border, rgba(128, 128, 128, 0.3)); }
+.tool { font-size: 0.85em; color: var(--vscode-descriptionForeground); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tname { font-family: var(--vscode-editor-font-family); color: var(--vscode-foreground); opacity: 0.8; }
+.tools-hidden { font-size: 0.8em; color: var(--vscode-descriptionForeground); opacity: 0.7; margin: 2px 0; }
+.tools-hidden::before { content: '⚙ '; }
+.msg.collapsed .body { max-height: 220px; overflow: hidden; mask-image: linear-gradient(to bottom, black 70%, transparent); -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent); }
+.more { margin-top: 4px; font-size: 0.85em; }
+.note { text-align: center; font-size: 0.85em; color: var(--vscode-descriptionForeground); margin: 8px 0; }
+.empty { padding: 20px; color: var(--vscode-descriptionForeground); }
+mark {
+  color: inherit;
+  background: var(--vscode-editor-findMatchHighlightBackground, rgba(234, 92, 0, 0.33));
+  border-radius: 2px;
+}
+mark.current {
+  background: var(--vscode-editor-findMatchBackground, rgba(255, 150, 50, 0.8));
+  outline: 1px solid var(--vscode-editor-findMatchBorder, transparent);
+}

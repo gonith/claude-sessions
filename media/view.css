@@ -45,11 +45,11 @@ body {
 }
 .card {
   padding: 6px 10px 6px 12px;
-  border-left: 2px solid transparent;
+  border-left: 3px solid transparent;
   cursor: pointer;
 }
 .card:hover { background: var(--vscode-list-hoverBackground); }
-.card.active { border-left-color: var(--vscode-charts-green, #3fb950); }
+
 .card.gone { opacity: 0.55; }
 .row1 { display: flex; align-items: baseline; gap: 6px; }
 .title {
@@ -127,3 +127,102 @@ body {
 }
 .actions button:hover { filter: brightness(1.15); }
 .empty { padding: 16px 10px; color: var(--vscode-descriptionForeground); }
+
+/* ---------------------------------------------------------------- états
+   orange : Claude attend ta réponse ou ton feu vert ; vert : terminé, pas encore vu. */
+:root {
+  --att-orange: var(--vscode-charts-orange, #d18616);
+  --att-green: var(--vscode-charts-green, #3fb950);
+  --att-blue: var(--vscode-charts-blue, #3794ff);
+}
+.card.att-waiting, .card.att-question {
+  border-left-color: var(--att-orange);
+  background: color-mix(in srgb, var(--att-orange) 12%, transparent);
+}
+.card.att-done {
+  border-left-color: var(--att-green);
+  background: color-mix(in srgb, var(--att-green) 10%, transparent);
+}
+.card.att-working { border-left-color: var(--att-blue); }
+.card.att-waiting:hover, .card.att-question:hover, .card.att-done:hover { filter: brightness(1.08); }
+.card.archived { opacity: 0.7; }
+.state {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  line-height: 16px;
+  text-align: center;
+  border-radius: 50%;
+  font-size: 0.8em;
+  font-weight: 700;
+  align-self: center;
+  color: var(--vscode-editor-background);
+}
+.att-waiting .state, .att-question .state { background: var(--att-orange); }
+.att-done .state { background: var(--att-green); }
+.att-working .state { background: none; color: var(--att-blue); animation: spin 1.6s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.stateline { margin-top: 1px; font-size: 0.85em; font-weight: 600; }
+.att-waiting .stateline, .att-question .stateline { color: var(--att-orange); }
+.att-done .stateline { color: var(--att-green); }
+.att-working .stateline { color: var(--att-blue); font-weight: normal; }
+
+/* ---------------------------------------------------------------- sections */
+.group .n {
+  margin-left: 4px;
+  padding: 0 5px;
+  border-radius: 8px;
+  background: var(--vscode-badge-background);
+  color: var(--vscode-badge-foreground);
+  font-weight: normal;
+}
+.group.g-you { color: var(--att-orange); }
+.group.g-work { color: var(--att-blue); }
+.group.g-project { text-transform: none; font-size: 0.9em; color: var(--vscode-foreground); letter-spacing: 0; }
+.group.g-worktree { text-transform: none; letter-spacing: 0; padding-top: 4px; padding-left: 18px; font-weight: normal; }
+.group.g-worktree::before { content: '└ '; opacity: 0.6; }
+
+/* ---------------------------------------------------------------- bascule date / projet */
+.seg { display: inline-flex; border: 1px solid var(--vscode-input-border, rgba(128, 128, 128, 0.35)); border-radius: 3px; overflow: hidden; }
+.seg button {
+  padding: 1px 8px;
+  font: inherit;
+  font-size: 0.95em;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: var(--vscode-descriptionForeground);
+}
+.seg button.on { background: var(--vscode-button-secondaryBackground); color: var(--vscode-button-secondaryForeground); }
+
+/* ---------------------------------------------------------------- étiquettes */
+.tag.term { background: none; border: 1px solid var(--vscode-input-border, rgba(128, 128, 128, 0.4)); color: var(--vscode-descriptionForeground); }
+.chip { cursor: pointer; color: #fff; }
+.chip.c0 { background: #8a5cf5; }
+.chip.c1 { background: #0e8a7e; }
+.chip.c2 { background: #c2410c; }
+.chip.c3 { background: #2563eb; }
+.chip.c4 { background: #be185d; }
+.chip.c5 { background: #4d7c0f; }
+
+/* ---------------------------------------------------------------- mode compact
+   Une ligne par conversation : l'icône d'état (s'il y en a une), le titre, l'heure. */
+body.compact .full-only,
+body.compact .seg,
+body.compact .stateline,
+body.compact .row2,
+body.compact .snippet,
+body.compact .actions,
+body.compact .card:hover .actions,
+body.compact .star:not(.on) { display: none; }
+body.compact .top { padding-bottom: 4px; }
+body.compact .card { padding: 3px 10px 3px 12px; }
+body.compact .card.att-waiting,
+body.compact .card.att-question,
+body.compact .card.att-done { background: none; }
+body.compact .title { font-weight: normal; }
+body.compact .card.att-waiting .title,
+body.compact .card.att-question .title,
+body.compact .card.att-done .title { font-weight: 600; }
+body.compact .title.renamed::before { content: none; }
+body.compact .group { padding-top: 7px; }

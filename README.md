@@ -7,10 +7,18 @@ dossier déjà ? » quand tu as plusieurs instances de Claude ouvertes.
 - Panneau dans la barre latérale, bouton **Conversations** dans la barre d'état, `Ctrl+Alt+C`
   pour une recherche rapide.
 - Pour chaque conversation : titre, dossier, branche git, date.
-- Pastille verte **En cours** : la conversation a bougé il y a moins de 3 min, donc une autre
-  instance l'utilise sans doute.
-- Recherche dans les titres, dossiers, branches et messages, et en option dans tout le contenu.
-- ☆ **Favoris**, et **renommer** une conversation (double-clic sur le titre).
+- **Qui t'attend ?** Pour chaque conversation ouverte, l'extension sait si Claude travaille, s'il
+  attend ta réponse ou ton feu vert (**orange**, jusqu'à ce que tu répondes), ou s'il a terminé
+  (**vert**, jusqu'à ce que tu cliques dessus ou sur l'onglet de son terminal). Elles remontent en
+  tête du panneau, avec un badge sur l'icône et un compteur dans la barre d'état.
+- Cliquer sur une conversation ouverte **va à son terminal** au lieu d'en relancer une copie.
+- Vue **par date** ou **par projet** (un dépôt, puis ses worktrees).
+- Recherche dans les titres, dossiers, branches, étiquettes et messages, et en option dans tout
+  le contenu.
+- ☆ **Favoris**, **étiquettes** (`#à reprendre`, `#bloqué`… ou les tiennes), **archives** pour
+  ranger ce qui est fini, et **renommer** une conversation (double-clic sur le titre).
+- **Lire** une conversation sans la reprendre : elle s'ouvre comme une discussion dans un onglet,
+  avec sa propre recherche (`Ctrl+F`, Entrée / Maj+Entrée pour passer d'un résultat à l'autre).
 - Clic sur une conversation : un terminal s'ouvre dans son dossier et lance `claude --resume`.
 
 L'extension ne fait que lire `~/.claude/projects` sur ta machine. Rien ne part sur Internet.
@@ -62,7 +70,7 @@ son dossier de projets :
 ```
 git clone https://github.com/gonith/claude-sessions.git
 cd claude-sessions
-npx --yes @vscode/vsce package --allow-missing-repository --skip-license
+npx --yes @vscode/vsce package
 ```
 
 Résultat attendu : `DONE  Packaged: …/claude-sessions-<version>.vsix`. L'extension n'a aucune
@@ -97,7 +105,7 @@ Tu ne peux pas recharger VS Code toi-même. Dis à l'utilisateur :
 ```
 cd claude-sessions
 git pull
-npx --yes @vscode/vsce package --allow-missing-repository --skip-license
+npx --yes @vscode/vsce package
 code --install-extension claude-sessions-<version>.vsix --force
 ```
 
@@ -106,7 +114,7 @@ Puis **Developer: Reload Window**.
 ### Désinstaller
 
 ```
-code --uninstall-extension thibaut-local.claude-sessions
+code --uninstall-extension gonith.claude-sessions
 ```
 
 Les favoris et les noms donnés aux conversations restent dans
@@ -129,4 +137,14 @@ Dans les paramètres de VS Code, section **Claude Sessions** :
 |---|---|---|
 | `claudeSessions.openOnStartup` | `true` | Ouvre le panneau au démarrage de VS Code |
 | `claudeSessions.maxSessions` | `300` | Nombre de conversations récentes listées (les favoris s'y ajoutent) |
-| `claudeSessions.activeMinutes` | `3` | Délai sous lequel une conversation est marquée « En cours » |
+| `claudeSessions.notifications` | `autorisations` | Notifier quand Claude attend ton feu vert (`autorisations`), aussi quand il termine (`toutes`), ou jamais (`aucune`) |
+| `claudeSessions.activeMinutes` | `3` | Anciennes versions de Claude Code seulement : délai sous lequel une conversation est considérée comme en cours |
+
+## Comment l'extension sait qui t'attend
+
+Claude Code tient un registre de ses sessions ouvertes dans `~/.claude/sessions/` : pour chacune,
+son processus et son statut (travaille, attend, a fini). L'extension le lit, et relie chaque
+session à son onglet de terminal en remontant l'arbre des processus. Ce registre est un détail
+interne de Claude Code : s'il change de format, l'extension continue de fonctionner mais perd les
+couleurs d'état. VS Code ne permet pas à une extension de changer la couleur d'un onglet de
+terminal déjà ouvert : les couleurs sont donc dans le panneau.
